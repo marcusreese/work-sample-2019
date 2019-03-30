@@ -1,12 +1,19 @@
-import express = require("express");
+import express from "express";
+import { purchasesSegment, purchasesRouter } from "./purchases/purchases";
 
-// Our Express APP config
+export const prefix = '/api/v1';
+
 const app = express();
-app.set("port", process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3000);
 
-// API Endpoints
-app.get("/", (req, res) => {
+app.use(prefix + purchasesSegment, purchasesRouter)
+
+app.get('/', (req, res) => {
   res.send("Hey");
 });
 
-export default app;
+app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // No Content
+
+console.log('in app.ts');
+
+export { app };
