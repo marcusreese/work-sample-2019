@@ -11,7 +11,8 @@
 		"dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
 		"prod": "tsc && node ./build/app.js",
 		"test": "jest",
-		"ts-jest": "ts-jest"
+		"ts-jest": "ts-jest",
+		"inspect": "ts-node-dev --inspect-brk --transpileOnly ./src/server.ts" 
 	},
 	"jest": {
 		"collectCoverage": true,
