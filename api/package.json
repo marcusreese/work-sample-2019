@@ -1,0 +1,20 @@
+{
+	"name": "work-sample-api",
+	"version": "0.0.1",
+	"description": "Simple API server as stipulated in original PENSCO document",
+	"repository": "github:marcusreese/work-sample-2019",
+	"author": "Marcus Reese",
+	"license": "MIT",
+	"private": true,
+	"scripts": {
+		"tsc": "tsc",
+		"dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
+		"prod": "tsc && node ./build/app.js"
+	},
+	"dependencies": {
+		"@types/express": "^4.16.1",
+		"express": "^4.16.4",
+		"typescript": "^3.4.1",
+		"ts-node-dev": "^1.0.0-pre.32"
+	}
+}
