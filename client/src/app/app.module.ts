@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { StockSelectComponent } from './stock-select/stock-select.component';
+import { StockService } from './stock.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { StockSelectComponent } from './stock-select/stock-select.component';
 	MatInputModule,
 	BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [StockService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

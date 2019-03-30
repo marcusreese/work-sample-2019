@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of as observableOf } from 'rxjs';
-// import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('StockSelectComponent', () => {
 	let component: StockSelectComponent;
@@ -32,7 +31,6 @@ describe('StockSelectComponent', () => {
 
 	beforeEach(() => {
 		fixture = TestBed.createComponent(StockSelectComponent);
-		// this.httpTestingController = TestBed.get(HttpTestingController);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});
