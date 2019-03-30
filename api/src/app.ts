@@ -1,7 +1,10 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import { purchasesSegment, purchasesRouter } from './purchases/purchases';
 
 export const app = express();
+
+app.use(bodyParser.json());
 app.set('port', process.env.PORT || 3000);
 
 export const prefix = '/api/v1';
