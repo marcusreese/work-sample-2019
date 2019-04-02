@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, take } from 'rxjs/operators';
-import { Subject, of as observableOf } from 'rxjs';
+import { of as observableOf, BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -8,7 +8,7 @@ import { Subject, of as observableOf } from 'rxjs';
 })
 export class StockServiceMock {
 	private selectedSymbol = 'A';
-	private selectedPrice$ = new Subject<number>();
+	private selectedPrice$ = new BehaviorSubject<number>(null);
 
 	constructor() {}
 
@@ -37,7 +37,9 @@ export class StockServiceMock {
 
 	providePriceOfSelected() {
 		this.selectedPrice$.next(1.23);
-		return this.selectedPrice$;
+		return this.selectedPrice$.asObservable();
 	}
-
+	updateEstimate(maxInvestment) {
+		return observableOf(8);
+	}
 }

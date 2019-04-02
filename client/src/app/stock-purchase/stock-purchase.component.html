@@ -1,3 +1,6 @@
 <mat-form-field>
-	<input matInput placeholder="Maximum Investment" type="number">
+	<input matInput placeholder="Maximum Investment" type="number" (keyup)="estimate($event)">
 </mat-form-field>
+<div class="max-shares" *ngIf="maxShares$ | async as maxShares">
+	Estimated number of shares: {{maxShares}}
+</div>

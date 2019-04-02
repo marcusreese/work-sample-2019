@@ -1,4 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { StockService } from '../stock.service';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-stock-purchase',
@@ -7,10 +9,13 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StockPurchaseComponent implements OnInit {
-	maxAmount: number;
-	constructor() { }
+	maxShares$: Observable<number>;
+	constructor(private stockService: StockService) { }
 
 	ngOnInit() {
 	}
 
+	estimate(event) {
+		this.maxShares$ = this.stockService.updateEstimate(event.target.value);
+	}
 }

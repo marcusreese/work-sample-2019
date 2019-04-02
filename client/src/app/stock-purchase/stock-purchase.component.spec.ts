@@ -51,4 +51,11 @@ describe('StockPurchaseComponent', () => {
 		const compiled = fixture.debugElement.nativeElement;
 		expect(compiled.querySelector('input')).toBeTruthy();
 	});
+
+	it('should estimate number of shares', () => {
+		const fixture = TestBed.createComponent(StockPurchaseComponent);
+		fixture.detectChanges();
+		const compiled = fixture.debugElement.nativeElement;
+		expect(compiled.querySelector('.max-shares')).toBeFalsy();
+	});
 });

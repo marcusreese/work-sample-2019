@@ -53,4 +53,19 @@ describe('StockService', () => {
 		);
 		req.flush(testData);
 	});
+
+	it('should update maxInvestment and provide maxShares', function () {
+		const stockService: StockService = TestBed.get(StockService);
+		expect(stockService.updateEstimate).toBeDefined();
+		const returned = stockService.updateEstimate(600);
+		expect(returned.constructor.name).toBe('Observable');
+		expect(stockService.maxInvestment).toBe(600);
+		stockService.setSelectedSymbol('ABC');
+		const req = httpTestingController.expectOne(
+			req => {
+				return req.url.includes('price');
+			}
+		).flush(100);
+		expect(stockService.maxShares$.value).toBe(6);
+	});
 });

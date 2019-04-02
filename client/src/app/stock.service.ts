@@ -8,8 +8,10 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class StockService {
 	private selectedSymbol = '';
-	private selectedPrice$ = new BehaviorSubject<number>(null);
-	pricePollInterval: any; // TS complains about both Timer and number
+	private pricePollInterval: any; // TS complains about both Timer and number
+	selectedPrice$ = new BehaviorSubject<number>(null);
+	maxShares$ = new BehaviorSubject<number>(null);
+	maxInvestment: number;
 
 	constructor(private http: HttpClient) { }
 
@@ -47,7 +49,7 @@ export class StockService {
 	providePriceOfSelected() {
 		this.pollForLatestPrice();
 		this.pricePollInterval = setInterval(this.pollForLatestPrice, 10 * 1000);
-		return this.selectedPrice$;
+		return this.selectedPrice$.asObservable();
 	}
 
 	pollForLatestPrice() {
@@ -62,11 +64,22 @@ export class StockService {
 					this.selectedPrice$.next(null);
 				} else {
 					this.selectedPrice$.next(val);
+					this.updateEstimate(this.maxInvestment);
 				}
 			}, (err: HttpErrorResponse) => {
 				console.log(`Error from getting price with "${this.selectedSymbol}":`, err);
 				clearInterval(this.pricePollInterval);
 				this.selectedPrice$.next(null);
 			});
+	}
+
+	updateEstimate(maxInvestment) {
+		this.maxInvestment = maxInvestment;
+		if (this.selectedPrice$.value && maxInvestment) {
+			this.maxShares$.next(Math.floor(maxInvestment / this.selectedPrice$.value));
+		} else {
+			this.maxShares$.next(null);
+		}
+		return this.maxShares$.asObservable();
 	}
 }
