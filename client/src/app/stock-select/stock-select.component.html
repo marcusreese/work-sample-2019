@@ -1,23 +1,21 @@
 <div class="symbol-input">
-	<form class="example-form">
-		<mat-form-field class="example-full-width">
-			<input type="text" placeholder="Enter a symbol" aria-label="Number" matInput #stockInput
-				[value]="(stockInput.value || '').toUpperCase()" [formControl]="myControl" [matAutocomplete]="auto"
-				(change)="onChange(stockInput.value)">
-			<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onChange($event.option.value)">
-				<mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">
-					{{option}}
-				</mat-option>
-			</mat-autocomplete>
-		</mat-form-field>
-	</form>
+	<mat-form-field>
+		<input type="text" placeholder="Stock Symbol" aria-label="Number" matInput #stockInput
+			[value]="(stockInput.value || '').toUpperCase()" [formControl]="myControl" [matAutocomplete]="auto"
+			(change)="onChange(stockInput.value)">
+		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onChange($event.option.value)">
+			<mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">
+				{{option}}
+			</mat-option>
+		</mat-autocomplete>
+	</mat-form-field>
 	<div class="full-stock-name">
 		{{chosenStock.name}}
 	</div>
 	<div class="latest-price" *ngIf="latestPrice$ | async">
-		${{latestPrice$ | async}}
+		${{latestPrice$ | async}} per share
 	</div>
-	<div class="getting-latest-price"  *ngIf="chosenStock.name && !(latestPrice$ | async)">
+	<div class="getting-latest-price" *ngIf="chosenStock.name && !(latestPrice$ | async)">
 		Getting latest price . . .
 	</div>
 </div>

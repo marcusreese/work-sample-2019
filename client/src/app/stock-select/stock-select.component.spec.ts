@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of as observableOf } from 'rxjs';
 import { StockService } from '../stock.service';
 import { StockServiceMock } from '../stock.service.mock';
@@ -25,7 +25,7 @@ describe('StockSelectComponent', () => {
 				MatAutocompleteModule,
 				MatFormFieldModule,
 				MatInputModule,
-				BrowserAnimationsModule
+				NoopAnimationsModule
 			],
 			providers: [
 				{
@@ -47,7 +47,7 @@ describe('StockSelectComponent', () => {
 		expect(component).toBeTruthy();
 	});
 
-	it('should render its inner components', () => {
+	it('should render an input with autocomplete and place for full name', () => {
 		const fixture = TestBed.createComponent(StockSelectComponent);
 		fixture.detectChanges();
 		const compiled = fixture.debugElement.nativeElement;

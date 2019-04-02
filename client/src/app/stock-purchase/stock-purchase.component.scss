@@ -1,0 +1,17 @@
+:host {
+	margin-top: 1rem;
+	display: block;
+	::ng-deep {
+		mat-form-field:not(.mat-form-field-should-float) .mat-form-field-label {
+			left: 12px;
+		}
+		input {
+			padding-left: 12px;
+		}
+		div.mat-form-field-underline::before {
+			content: '$';
+			position: relative;
+			top: -24px;
+		}
+	}
+}
