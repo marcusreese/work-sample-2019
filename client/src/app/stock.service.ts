@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, take } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class StockService {
 	private selectedSymbol = '';
-	private selectedPrice$ = new Subject();
+	private selectedPrice$ = new BehaviorSubject<number>(null);
 	pricePollInterval: any; // TS complains about both Timer and number
 
-	constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient) { }
 
 	fetchRefData() {
 		return this.http.get('https://api.iextrading.com/1.0/ref-data/symbols').pipe(
@@ -40,27 +40,33 @@ export class StockService {
 
 	setSelectedSymbol(symbol) {
 		this.selectedSymbol = symbol;
+		this.providePriceOfSelected();
 		return true;
 	}
 
 	providePriceOfSelected() {
-		this.pricePollInterval = setInterval(() => {
-			this.http.get(`https://api.iextrading.com/1.0/stock/${this.selectedSymbol}/price`)
-				.pipe(take(1))
-				.subscribe((val: number) => {
-					if (val === undefined || val.constructor.name === 'HttpErrorResponse') {
-						clearInterval(this.pricePollInterval);
-						this.selectedPrice$.error(NaN);
-					} else {
-						this.selectedPrice$.next(val);
-					}
-				}, (err: HttpErrorResponse) => {
-					console.log(`Error from getting price with "${this.selectedSymbol}":`, err);
-					clearInterval(this.pricePollInterval);
-					this.selectedPrice$.error(NaN);
-				});
-		}, 5000);
+		this.pollForLatestPrice();
+		this.pricePollInterval = setInterval(this.pollForLatestPrice, 10 * 1000);
 		return this.selectedPrice$;
 	}
 
+	pollForLatestPrice() {
+		if (!this.selectedSymbol) {
+			return;
+		}
+		this.http.get(`https://api.iextrading.com/1.0/stock/${this.selectedSymbol}/price`)
+			.pipe(take(1))
+			.subscribe((val: number) => {
+				if (val === undefined || val.constructor.name === 'HttpErrorResponse') {
+					clearInterval(this.pricePollInterval);
+					this.selectedPrice$.next(null);
+				} else {
+					this.selectedPrice$.next(val);
+				}
+			}, (err: HttpErrorResponse) => {
+				console.log(`Error from getting price with "${this.selectedSymbol}":`, err);
+				clearInterval(this.pricePollInterval);
+				this.selectedPrice$.next(null);
+			});
+	}
 }

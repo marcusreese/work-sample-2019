@@ -12,19 +12,21 @@ import { StockService } from '../stock.service';
 })
 export class StockSelectComponent implements OnInit {
 	myControl = new FormControl();
-	filteredOptions: Observable<string[]>;
+	filteredOptions$: Observable<string[]>;
 	indexedStocks: any = {};
-	chosenStock = {};
+	chosenStock: any = {};
+	latestPrice$: Observable<number>;
 
 	constructor(private stockService: StockService) {}
 
 	ngOnInit() {
 		this.stockService.fetchRefData().pipe(take(1)).subscribe((stocks: any) => {
 			this.indexedStocks = stocks;
-			this.filteredOptions = this.myControl.valueChanges.pipe(
+			this.filteredOptions$ = this.myControl.valueChanges.pipe(
 				startWith(''),
 				map(value => this._filter(value.toUpperCase()))
 			);
+			this.latestPrice$ = this.stockService.providePriceOfSelected();
 		});
 	}
 
@@ -42,5 +44,6 @@ export class StockSelectComponent implements OnInit {
 		} else {
 			this.chosenStock = this.indexedStocks[val].full[0];
 		}
+		this.stockService.setSelectedSymbol(this.chosenStock.symbol);
 	}
 }
