@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { StockPurchaseComponent } from './stock-purchase/stock-purchase.component';
+import { StockService } from './stock.service';
+import { StockServiceMock } from './stock.service.mock';
 
 describe('AppComponent', () => {
 	beforeEach(async(() => {
@@ -25,6 +27,12 @@ describe('AppComponent', () => {
 				MatFormFieldModule,
 				MatInputModule,
 				NoopAnimationsModule
+			],
+			providers: [
+				{
+					provide: StockService,
+					useClass: StockServiceMock
+				}
 			]
 		}).compileComponents();
 	}));
@@ -54,5 +62,18 @@ describe('AppComponent', () => {
 		fixture.detectChanges();
 		const compiled = fixture.debugElement.nativeElement;
 		expect(compiled.querySelector('app-stock-purchase')).toBeTruthy();
+	});
+
+	it('should be able to submit the form and see results', () => {
+		const fixture = TestBed.createComponent(AppComponent);
+		fixture.detectChanges();
+		const compiled = fixture.debugElement.nativeElement;
+		const buyNowButton = compiled.querySelector('.buy');
+		expect(buyNowButton).toBeTruthy();
+		spyOn(fixture.componentInstance.stockService, 'buy').and.callThrough();
+		buyNowButton.click();
+		expect(fixture.componentInstance.stockService.buy).toHaveBeenCalledTimes(1);
+		fixture.detectChanges();
+		expect(compiled.querySelector('.results').textContent).toContain('test result');
 	});
 });

@@ -12,6 +12,7 @@ export class StockService {
 	selectedPrice$ = new BehaviorSubject<number>(null);
 	maxShares$ = new BehaviorSubject<number>(null);
 	maxInvestment: number;
+	results$ = new BehaviorSubject<string>('');
 
 	constructor(private http: HttpClient) { }
 
@@ -81,5 +82,27 @@ export class StockService {
 			this.maxShares$.next(null);
 		}
 		return this.maxShares$.asObservable();
+	}
+
+	buy() {
+		if (!this.selectedSymbol || !this.maxInvestment) {
+			this.addToResults([
+				`Unexpected error --`,
+				`did not attempt to spend $${this.maxInvestment || 0}`,
+				`for ${this.selectedSymbol || 'unknown'} stock`
+			]);
+			return;
+		} else {
+			this.addToResults([
+				`Bought`
+			]);
+		}
+	}
+
+	addToResults(stringArray) {
+		this.results$.next( '\n' + [
+			new Date().toLocaleString(),
+			...stringArray.map(s => '    ' + s)
+		].join('\n') + '\n' + this.results$.value);
 	}
 }

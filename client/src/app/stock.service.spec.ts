@@ -57,9 +57,9 @@ describe('StockService', () => {
 	it('should update maxInvestment and provide maxShares', function () {
 		const stockService: StockService = TestBed.get(StockService);
 		expect(stockService.updateEstimate).toBeDefined();
-		const returned = stockService.updateEstimate(600);
+		const returned = stockService.updateEstimate(654);
 		expect(returned.constructor.name).toBe('Observable');
-		expect(stockService.maxInvestment).toBe(600);
+		expect(stockService.maxInvestment).toBe(654);
 		stockService.setSelectedSymbol('ABC');
 		const req = httpTestingController.expectOne(
 			req => {
@@ -67,5 +67,27 @@ describe('StockService', () => {
 			}
 		).flush(100);
 		expect(stockService.maxShares$.value).toBe(6);
+	});
+
+	it('should provide a way to buy', function () {
+		const stockService: StockService = TestBed.get(StockService);
+		expect(stockService.buy).toBeDefined();
+		expect(stockService.results$).toBeDefined();
+		expect(stockService.results$.value).toBe('');
+		stockService.buy();
+		expect(stockService.results$.value).not.toContain('Bought');
+		expect(stockService.results$.value).toContain('Unexpected error');
+		expect(stockService.results$.value).toContain('did not attempt to spend $0');
+		expect(stockService.results$.value).toContain('for unknown stock');
+		stockService.setSelectedSymbol('A');
+		const req = httpTestingController.expectOne(
+			req => {
+				return req.url.includes('price');
+			}
+		).flush(100);
+		stockService.maxInvestment = 500;
+		stockService.buy();
+		expect(stockService.results$.value).toContain(
+			'Bought');
 	});
 });

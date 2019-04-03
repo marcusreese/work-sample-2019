@@ -1,10 +1,19 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div>
 	<h1>
-		You have unlimited credit! Ready to purchase stocks?
+		You have fake credit! Ready to purchase stocks?
 	</h1>
 	<form>
 		<app-stock-select></app-stock-select>
 		<app-stock-purchase></app-stock-purchase>
+		<button
+			class="buy"
+			mat-flat-button
+			color="primary"
+			[disabled]="(stockService.maxShares$ | async)"
+			(click)="stockService.buy()">Pretend to buy now!</button>
 	</form>
+	<pre class='results'>
+		{{stockService.results$ | async}}
+	</pre>
 </div>

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatButtonModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -24,6 +24,7 @@ import { StockPurchaseComponent } from './stock-purchase/stock-purchase.componen
 	MatAutocompleteModule,
 	MatFormFieldModule,
 	MatInputModule,
+	MatButtonModule,
 	BrowserAnimationsModule
   ],
   providers: [StockService],

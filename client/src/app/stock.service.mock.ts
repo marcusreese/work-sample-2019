@@ -7,8 +7,9 @@ import { of as observableOf, BehaviorSubject } from 'rxjs';
 	providedIn: 'root'
 })
 export class StockServiceMock {
-	private selectedSymbol = 'A';
+	private selectedSymbol = '';
 	private selectedPrice$ = new BehaviorSubject<number>(null);
+	results$ = new BehaviorSubject<string>('');
 
 	constructor() {}
 
@@ -36,10 +37,19 @@ export class StockServiceMock {
 	}
 
 	providePriceOfSelected() {
-		this.selectedPrice$.next(1.23);
+		if (this.selectedSymbol) {
+			this.selectedPrice$.next(1.23);
+		} else {
+			this.selectedPrice$.next(null);
+		}
 		return this.selectedPrice$.asObservable();
 	}
+
 	updateEstimate(maxInvestment) {
 		return observableOf(8);
+	}
+
+	buy() {
+		this.results$.next('test result');
 	}
 }
