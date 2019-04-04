@@ -10,6 +10,7 @@ export class StockServiceMock {
 	private selectedSymbol = '';
 	private selectedPrice$ = new BehaviorSubject<number>(null);
 	results$ = new BehaviorSubject<string>('');
+	maxShares$ = new BehaviorSubject<number>(5);
 
 	constructor() {}
 

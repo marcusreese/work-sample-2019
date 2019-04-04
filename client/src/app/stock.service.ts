@@ -14,7 +14,7 @@ export class StockService {
 	maxInvestment: number;
 	results$ = new BehaviorSubject<string>('');
 
-	constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient) {}
 
 	fetchRefData() {
 		return this.http.get('https://api.iextrading.com/1.0/ref-data/symbols').pipe(
@@ -93,9 +93,19 @@ export class StockService {
 			]);
 			return;
 		} else {
-			this.addToResults([
-				`Bought`
-			]);
+			const { selectedSymbol: stockSymbol, maxInvestment } = this;
+			const url = 'http://localhost:3000/api/v1/purchases'; // process.env.PURCHASES_URL;
+			this.http.post(url, { stockSymbol, maxInvestment }).subscribe((res) => {
+				console.log('response from post:', res);
+				this.addToResults([
+					`Bought ${JSON.stringify(res)}`
+				]);
+			}, (err) => {
+				console.log('err from post:', err);
+				this.addToResults([
+					`Failed to buy. ${err.message}`
+				]);
+			})
 		}
 	}
 

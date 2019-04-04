@@ -10,7 +10,7 @@
 			class="buy"
 			mat-flat-button
 			color="primary"
-			[disabled]="(stockService.maxShares$ | async)"
+			[disabled]="!(stockService.maxShares$ | async)"
 			(click)="stockService.buy()">Pretend to buy now!</button>
 	</form>
 	<pre class='results'>

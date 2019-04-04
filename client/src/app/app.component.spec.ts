@@ -9,6 +9,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { StockPurchaseComponent } from './stock-purchase/stock-purchase.component';
 import { StockService } from './stock.service';
 import { StockServiceMock } from './stock.service.mock';
+import { of as observableOf } from 'rxjs';
 
 describe('AppComponent', () => {
 	beforeEach(async(() => {

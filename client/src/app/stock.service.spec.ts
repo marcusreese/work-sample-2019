@@ -1,7 +1,7 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { StockService } from './stock.service';
-import { HttpClientModule, HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
 
 describe('StockService', () => {
@@ -32,12 +32,11 @@ describe('StockService', () => {
 		expect(stockService.getSelectedSymbol()).toBe('');
 		expect(stockService.setSelectedSymbol('ABC')).toBeTruthy();
 		expect(stockService.getSelectedSymbol()).toBe('ABC');
-		const req = httpTestingController.expectOne(
+		httpTestingController.expectOne(
 			req => {
 				return req.url.includes('price');
 			}
-		);
-		req.flush(1.23);
+		).flush(1.23);
 	});
 
 	it('should fetch reference data', function () {
@@ -46,12 +45,11 @@ describe('StockService', () => {
 		const testData = [{symbol: 'A', name: 'A-STOCK'}, {symbol: 'B', name: 'B-STOCK' }];
 		expect(stockService.fetchRefData().constructor.name).toBe('Observable');
 		stockService.fetchRefData().pipe(take(1)).subscribe();
-		const req = httpTestingController.expectOne(
+		httpTestingController.expectOne(
 			req => {
 				return req.url.includes('ref-data');
 			}
-		);
-		req.flush(testData);
+		).flush(testData);
 	});
 
 	it('should update maxInvestment and provide maxShares', function () {
@@ -61,7 +59,7 @@ describe('StockService', () => {
 		expect(returned.constructor.name).toBe('Observable');
 		expect(stockService.maxInvestment).toBe(654);
 		stockService.setSelectedSymbol('ABC');
-		const req = httpTestingController.expectOne(
+		httpTestingController.expectOne(
 			req => {
 				return req.url.includes('price');
 			}
@@ -80,13 +78,18 @@ describe('StockService', () => {
 		expect(stockService.results$.value).toContain('did not attempt to spend $0');
 		expect(stockService.results$.value).toContain('for unknown stock');
 		stockService.setSelectedSymbol('A');
-		const req = httpTestingController.expectOne(
+		httpTestingController.expectOne(
 			req => {
 				return req.url.includes('price');
 			}
 		).flush(100);
 		stockService.maxInvestment = 500;
 		stockService.buy();
+		httpTestingController.expectOne(
+			req => {
+				return req.url.includes('purchases');
+			}
+		).flush({placeholder: 'response'});
 		expect(stockService.results$.value).toContain(
 			'Bought');
 	});
