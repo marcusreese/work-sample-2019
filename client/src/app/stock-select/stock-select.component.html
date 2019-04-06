@@ -13,7 +13,7 @@
 		{{chosenStock.name}}
 	</div>
 	<div class="latest-price" *ngIf="latestPrice$ | async">
-		${{latestPrice$ | async}} per share
+		${{(latestPrice$ | async).toFixed(4)}} per share
 	</div>
 	<div class="getting-latest-price" *ngIf="chosenStock.name && !(latestPrice$ | async)">
 		Getting latest price . . .

@@ -50,7 +50,12 @@ export class StockServiceMock {
 		return observableOf(8);
 	}
 
+	getResults$() {
+		return this.results$.asObservable();
+	}
+
 	buy() {
 		this.results$.next('test result');
+		return Promise.resolve();
 	}
 }

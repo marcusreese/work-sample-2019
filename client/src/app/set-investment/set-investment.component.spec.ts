@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StockPurchaseComponent } from './stock-purchase.component';
+import { SetInvestmentComponent } from './set-investment.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,13 +9,13 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { StockService } from '../stock.service';
 import { StockServiceMock } from '../stock.service.mock';
 
-describe('StockPurchaseComponent', () => {
-	let component: StockPurchaseComponent;
-	let fixture: ComponentFixture<StockPurchaseComponent>;
+describe('SetInvestmentComponent', () => {
+	let component: SetInvestmentComponent;
+	let fixture: ComponentFixture<SetInvestmentComponent>;
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [StockPurchaseComponent],
+			declarations: [SetInvestmentComponent],
 			imports: [
 				BrowserModule,
 				HttpClientModule,
@@ -36,7 +36,7 @@ describe('StockPurchaseComponent', () => {
 	}));
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(StockPurchaseComponent);
+		fixture = TestBed.createComponent(SetInvestmentComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});
@@ -46,14 +46,14 @@ describe('StockPurchaseComponent', () => {
 	});
 
 	it('should render an input', () => {
-		const fixture = TestBed.createComponent(StockPurchaseComponent);
+		const fixture = TestBed.createComponent(SetInvestmentComponent);
 		fixture.detectChanges();
 		const compiled = fixture.debugElement.nativeElement;
 		expect(compiled.querySelector('input')).toBeTruthy();
 	});
 
 	it('should estimate number of shares', () => {
-		const fixture = TestBed.createComponent(StockPurchaseComponent);
+		const fixture = TestBed.createComponent(SetInvestmentComponent);
 		fixture.detectChanges();
 		const compiled = fixture.debugElement.nativeElement;
 		expect(compiled.querySelector('.max-shares')).toBeFalsy();

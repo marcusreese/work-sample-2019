@@ -1,19 +1,23 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div>
 	<h1>
-		You have fake credit! Ready to purchase stocks?
+		Ready to purchase stocks?
 	</h1>
+	<h3>
+		(You have unlimited fake credit!)
+	</h3>
 	<form>
 		<app-stock-select></app-stock-select>
-		<app-stock-purchase></app-stock-purchase>
+		<app-set-investment></app-set-investment>
 		<button
 			class="buy"
 			mat-flat-button
 			color="primary"
 			[disabled]="!(stockService.maxShares$ | async)"
-			(click)="stockService.buy()">Pretend to buy now!</button>
+			(click)="attemptPurchase()">Pretend to buy now!</button>
 	</form>
-	<pre class='results'>
-		{{stockService.results$ | async}}
-	</pre>
+	<h3>Latest Purchase Events:</h3>
+	<div class='results' *ngIf="resultsArrived">
+		{{results$ | async}}
+	</div>
 </div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { StockService } from './stock.service';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-root',
@@ -8,5 +9,17 @@ import { Observable } from 'rxjs';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	constructor(public stockService: StockService) {}
+	resultsArrived = false;
+	results$: Observable<any>;
+
+	constructor(public stockService: StockService) {
+		this.results$ = this.stockService.getResults$();
+	}
+
+	attemptPurchase() {
+		this.resultsArrived = false;
+		this.stockService.buy().then(() => {
+			this.resultsArrived = true;
+		});
+	}
 }

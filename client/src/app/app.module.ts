@@ -8,13 +8,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { StockSelectComponent } from './stock-select/stock-select.component';
 import { StockService } from './stock.service';
-import { StockPurchaseComponent } from './stock-purchase/stock-purchase.component';
+import { SetInvestmentComponent } from './set-investment/set-investment.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StockSelectComponent,
-    StockPurchaseComponent
+    SetInvestmentComponent
   ],
   imports: [
 	BrowserModule,

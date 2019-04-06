@@ -11,8 +11,8 @@ describe('StockService', () => {
 		TestBed.configureTestingModule({
 			imports: [HttpClientTestingModule, HttpClientModule],
 			providers: [StockService]
-		  });
-		httpTestingController = TestBed.get(HttpTestingController); 
+		});
+		httpTestingController = TestBed.get(HttpTestingController);
 		httpClient = TestBed.get(HttpClient);
 	});
 	afterEach(function () {
@@ -42,7 +42,7 @@ describe('StockService', () => {
 	it('should fetch reference data', function () {
 		const stockService: StockService = TestBed.get(StockService);
 		expect(stockService.fetchRefData).toBeDefined();
-		const testData = [{symbol: 'A', name: 'A-STOCK'}, {symbol: 'B', name: 'B-STOCK' }];
+		const testData = [{ symbol: 'A', name: 'A-STOCK' }, { symbol: 'B', name: 'B-STOCK' }];
 		expect(stockService.fetchRefData().constructor.name).toBe('Observable');
 		stockService.fetchRefData().pipe(take(1)).subscribe();
 		httpTestingController.expectOne(
@@ -67,16 +67,19 @@ describe('StockService', () => {
 		expect(stockService.maxShares$.value).toBe(6);
 	});
 
-	it('should provide a way to buy', function () {
+	it('should provide a way to buy', () => {
 		const stockService: StockService = TestBed.get(StockService);
-		expect(stockService.buy).toBeDefined();
-		expect(stockService.results$).toBeDefined();
-		expect(stockService.results$.value).toBe('');
+		let results = '';
+		stockService.getResults$().subscribe((text) => results = text);
+		expect(results).toBe('');
 		stockService.buy();
-		expect(stockService.results$.value).not.toContain('Bought');
-		expect(stockService.results$.value).toContain('Unexpected error');
-		expect(stockService.results$.value).toContain('did not attempt to spend $0');
-		expect(stockService.results$.value).toContain('for unknown stock');
+		expect(results).not.toContain(`Purchase completed sucessfully . . .`);
+		expect(results).toContain(`Purchase attempt failed harmlessly . . .`);
+		expect(results).toContain(`Stock Symbol: Unknown`);
+		expect(results).toContain(`Maximum Investment: Unknown`);
+		expect(results).toContain(`Price per share: Unknown`);
+		expect(results).toContain(`Number of shares purchased: 0`);
+		expect(results).toContain(`Total investment: $0.00`);
 		stockService.setSelectedSymbol('A');
 		httpTestingController.expectOne(
 			req => {
@@ -89,8 +92,20 @@ describe('StockService', () => {
 			req => {
 				return req.url.includes('purchases');
 			}
-		).flush({placeholder: 'response'});
-		expect(stockService.results$.value).toContain(
-			'Bought');
+		).flush({
+			"data": {
+				"stockSymbol": "A",
+				"maxInvestment": "500",
+				"price": 3.5,
+				"numSharesBought": 2
+			},
+			"status": 200
+		});
+		expect(results).toContain(`Purchase completed sucessfully . . .`);
+		expect(results).toContain(`Maximum Investment: $500.00`);
+		expect(results).toContain(`Price per share: $3.5000`);
+		expect(results).toContain(`Number of shares purchased: 2`);
+		expect(results).toContain(`Total investment: $7.00`);
+		expect(results).toContain(``);
 	});
 });

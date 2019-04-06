@@ -6,10 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { StockPurchaseComponent } from './stock-purchase/stock-purchase.component';
+import { SetInvestmentComponent } from './set-investment/set-investment.component';
 import { StockService } from './stock.service';
 import { StockServiceMock } from './stock.service.mock';
-import { of as observableOf } from 'rxjs';
 
 describe('AppComponent', () => {
 	beforeEach(async(() => {
@@ -17,7 +16,7 @@ describe('AppComponent', () => {
 			declarations: [
 				AppComponent,
 				StockSelectComponent,
-				StockPurchaseComponent
+				SetInvestmentComponent
 			],
 			imports: [
 				BrowserModule,
@@ -58,11 +57,11 @@ describe('AppComponent', () => {
 		expect(compiled.querySelector('app-stock-select')).toBeTruthy();
 	});
 
-	it('should render a stock-purchase component', () => {
+	it('should render a set-investment component', () => {
 		const fixture = TestBed.createComponent(AppComponent);
 		fixture.detectChanges();
 		const compiled = fixture.debugElement.nativeElement;
-		expect(compiled.querySelector('app-stock-purchase')).toBeTruthy();
+		expect(compiled.querySelector('app-set-investment')).toBeTruthy();
 	});
 
 	it('should be able to submit the form and see results', () => {
@@ -74,7 +73,9 @@ describe('AppComponent', () => {
 		spyOn(fixture.componentInstance.stockService, 'buy').and.callThrough();
 		buyNowButton.click();
 		expect(fixture.componentInstance.stockService.buy).toHaveBeenCalledTimes(1);
-		fixture.detectChanges();
-		expect(compiled.querySelector('.results').textContent).toContain('test result');
+		fixture.whenStable().then(() => {
+			fixture.detectChanges();
+			expect(compiled.querySelector('.results').textContent).toContain('test result');
+		  });
 	});
 });
