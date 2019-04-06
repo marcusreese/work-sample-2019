@@ -2,6 +2,9 @@ import { app, helpful404 } from './app';
 import request from 'supertest';
 
 describe('The app', () => {
+	afterAll(async () => {
+		await new Promise(resolve => setTimeout(() => resolve(), 500)); // avoid jest open handle error
+	});
 	it('returns 404 for non-existent routes part 1', async () => {
 		const result = await request(app).get('/');
 		expect(result.body).toEqual(helpful404);

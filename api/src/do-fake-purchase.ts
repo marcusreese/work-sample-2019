@@ -1,6 +1,7 @@
 import got from 'got';
 
 export const doFakePurchase = (stockSymbol: string, maxInvestment: number) => {
+	console.log('in real doFakePurchase:');
 	const url = `https://api.iextrading.com/1.0/stock/${stockSymbol}/price`;
 	return got(url).then((resp: got.Response<string>) => {
 		const { body, statusCode } = resp;
@@ -13,7 +14,8 @@ export const doFakePurchase = (stockSymbol: string, maxInvestment: number) => {
 					stockSymbol,
 					maxInvestment,
 					price,
-					numSharesBought
+					numSharesBought,
+					time: Date.now()
 				},
 				message: `The price of a single share was higher than your maximum investment.\n` + 
 				`Fractional shares are not allowed.`
@@ -26,6 +28,7 @@ export const doFakePurchase = (stockSymbol: string, maxInvestment: number) => {
 				maxInvestment,
 				price,
 				numSharesBought,
+				time: Date.now()
 			}
 		});
 	}, (error: any) => {
@@ -34,7 +37,8 @@ export const doFakePurchase = (stockSymbol: string, maxInvestment: number) => {
 			data: {
 				stockSymbol,
 				maxInvestment,
-				numSharesBought: 0
+				numSharesBought: 0,
+				time: Date.now()
 			},
 			message: `The current price was unavailable. Please try again.`
 		});

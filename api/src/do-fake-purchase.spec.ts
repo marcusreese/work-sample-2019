@@ -8,12 +8,14 @@ describe('purchases resource', () => {
 			.reply(200, '9.5');
 		return doFakePurchase('A', 9).then(resp => {
 		}).catch((err => {
-			expect(err).toEqual({
+			const withoutTime = JSON.parse(JSON.stringify(err));
+			delete withoutTime.data.time;
+			expect(withoutTime).toEqual({
 				"data": {
 					"maxInvestment": 9,
 					"numSharesBought": 0,
 					"price": 9.5,
-					"stockSymbol": "A",
+					"stockSymbol": "A"
 				},
 				"message": `The price of a single share was higher than your maximum investment.\n` + 
 				`Fractional shares are not allowed.`,
@@ -28,7 +30,9 @@ describe('purchases resource', () => {
 			.reply(503);
 		return doFakePurchase('A', 9).then(resp => {
 		}).catch((err => {
-			expect(err).toEqual({
+			const withoutTime = JSON.parse(JSON.stringify(err));
+			delete withoutTime.data.time;
+			expect(withoutTime).toEqual({
 				"data": {
 					"maxInvestment": 9,
 					"numSharesBought": 0,
@@ -45,7 +49,9 @@ describe('purchases resource', () => {
 			.get(uri => uri.includes('stock'))
 			.reply(200, '9.5');
 		return doFakePurchase('A', 10).then(resp => {
-			expect(resp).toEqual({
+			const withoutTime = JSON.parse(JSON.stringify(resp));
+			delete withoutTime.data.time;
+			expect(withoutTime).toEqual({
 				"data": {
 					"maxInvestment": 10,
 					"numSharesBought": 1,
