@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div>
+<div class="first half">
 	<h1>
 		Ready to purchase stocks?
 	</h1>
@@ -9,15 +9,28 @@
 	<form>
 		<app-stock-select></app-stock-select>
 		<app-set-investment></app-set-investment>
-		<button
-			class="buy"
-			mat-flat-button
-			color="primary"
-			[disabled]="!(stockService.maxShares$ | async)"
-			(click)="attemptPurchase()">Pretend to buy now!</button>
+		<button class="buy" mat-flat-button color="primary" [disabled]="!(stockService.maxShares$ | async)"
+			(click)="attemptPurchase()">
+			Pretend to buy now!
+		</button>
 	</form>
 	<h3>Latest Purchase Events:</h3>
-	<div class='results' *ngIf="resultsArrived">
+	<div class='results' [ngClass]="{ changing: !resultsArrived }">
 		{{results$ | async}}
+	</div>
+</div>
+<div class="second half">
+	<h1>
+		View Purchases
+	</h1>
+	<form>
+		<app-view-purchases></app-view-purchases>
+		<button class="view-purchases" mat-flat-button color="accent" (click)="get()">
+			Try Endpoint
+		</button>
+	</form>
+	<h3>Latest Extra Events:</h3>
+	<div class='results' [ngClass]="{ changing: !extraResultsArrived }">
+		{{extraResults$ | async}}
 	</div>
 </div>

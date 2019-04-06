@@ -11,6 +11,8 @@ import { take } from 'rxjs/operators';
 export class AppComponent {
 	resultsArrived = false;
 	results$: Observable<any>;
+	extraResultsArrived = false;
+	extraResults$: Observable<any>;
 
 	constructor(public stockService: StockService) {
 		this.results$ = this.stockService.getResults$();
@@ -20,6 +22,14 @@ export class AppComponent {
 		this.resultsArrived = false;
 		this.stockService.buy().then(() => {
 			this.resultsArrived = true;
+		});
+	}
+	
+	getAll() {
+		console.log('ready')
+		this.extraResultsArrived = false;
+		this.stockService.buy().then(() => {
+			this.extraResultsArrived = true;
 		});
 	}
 }

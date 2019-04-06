@@ -1,0 +1,13 @@
+:host {
+	mat-tab-group {
+		height: 8rem;
+	}
+	::ng-deep {
+		.mat-tab-label {
+			min-width: 65px; // was 160px; less than 65 doesn't do much?
+		}
+		.mat-tab-header-pagination {
+			display: none !important;
+		}
+	}
+} 

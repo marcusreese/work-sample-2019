@@ -13,6 +13,7 @@ export class StockService {
 	maxShares$ = new BehaviorSubject<number>(null);
 	maxInvestment: number;
 	private results$ = new BehaviorSubject<string>('');
+	private extraResults$ = new BehaviorSubject<string>('');
 
 	constructor(private http: HttpClient) {}
 
@@ -88,8 +89,12 @@ export class StockService {
 		return this.results$.asObservable();
 	}
 
+	getExtraResults$() {
+		return this.extraResults$.asObservable();
+	}
+
 	buy() {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			if (!this.selectedSymbol || !this.maxInvestment) {
 				this.logPurchaseInfo(false, undefined, 0);
 				resolve();
@@ -121,6 +126,7 @@ export class StockService {
 		const maxInv = this.maxInvestment ? '$' + (this.maxInvestment.toFixed(2)) : null;
 		const total = price * numShares;
 		this.results$.next([
+			// TODO use date from server
 			new Date().toString().split(' (')[0],
 			topMessage,
 			`Stock Symbol: ${this.selectedSymbol || 'Unknown'}`,
@@ -129,6 +135,37 @@ export class StockService {
 			`Number of shares purchased: ${numShares}`,
 			`Total investment: $${total.toFixed(2)}`,
 			...other
+		].join('\n') + '\n\n' + this.results$.value);
+	}
+
+	get() {
+		return new Promise((resolve) => {
+			const url = 'http://localhost:3000/api/v1/purchases'; // process.env.PURCHASES_URL;
+			return this.http.get(url).subscribe((res: any) => {
+				console.log('got:', res)
+				this.logExtraInfo(true);
+				resolve();
+			}, (err) => {
+				// If the API server is up but has lost connection to the IEX API,
+				// then the API server returns data and message.
+				const { data = {}, message = '' } = err.error;
+				const { price, numSharesBought } = data;
+				const msg = message ? message.split('\n') : navigator.onLine ?
+					[`Our API server may be down.`] :
+					[`Check your internet connection?`];
+				this.logExtraInfo(false, msg);
+				resolve();
+			});
+		});
+	}
+
+	logExtraInfo(isOkay: boolean, messages = []) {
+		const topMessage = isOkay ? `API interaction completed sucessfully . . .`
+			: `API interaction failed harmlessly . . .`;
+		this.results$.next([
+			new Date().toString().split(' (')[0],
+			topMessage,
+			...messages
 		].join('\n') + '\n\n' + this.results$.value);
 	}
 }

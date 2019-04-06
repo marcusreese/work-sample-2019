@@ -4,11 +4,12 @@ import { StockSelectComponent } from './stock-select/stock-select.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatTabsModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SetInvestmentComponent } from './set-investment/set-investment.component';
 import { StockService } from './stock.service';
 import { StockServiceMock } from './stock.service.mock';
+import { ViewPurchasesComponent } from './view-purchases/view-purchases.component';
 
 describe('AppComponent', () => {
 	beforeEach(async(() => {
@@ -16,7 +17,8 @@ describe('AppComponent', () => {
 			declarations: [
 				AppComponent,
 				StockSelectComponent,
-				SetInvestmentComponent
+				SetInvestmentComponent,
+				ViewPurchasesComponent
 			],
 			imports: [
 				BrowserModule,
@@ -26,6 +28,7 @@ describe('AppComponent', () => {
 				MatAutocompleteModule,
 				MatFormFieldModule,
 				MatInputModule,
+				MatTabsModule,
 				NoopAnimationsModule
 			],
 			providers: [
