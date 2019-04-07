@@ -214,4 +214,8 @@ export class StockService {
 	setSelectedId(id: string) {
 		this.selectedId = id;
 	}
+
+	setSymbolToView(symbol: string) {
+		this.symbolToView = symbol;
+	}
 }

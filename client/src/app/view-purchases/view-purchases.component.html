@@ -4,12 +4,10 @@
 	</mat-tab>
 	<mat-tab label="By ID">
 		<mat-form-field>
-			<input
-				matInput
-				placeholder="Purchase ID"
-				type="text"
-				(change)="setId($event.target.value)">
+			<input matInput placeholder="Purchase ID" type="text" (change)="setId($event.target.value)">
 		</mat-form-field>
 	</mat-tab>
-	<mat-tab label="By Symbol"> </mat-tab>
+	<mat-tab label="By Symbol">
+		<app-stock-select></app-stock-select>
+	</mat-tab>
 </mat-tab-group>

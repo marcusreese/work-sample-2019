@@ -12,10 +12,10 @@
 	<div class="full-stock-name">
 		{{chosenStock.name}}
 	</div>
-	<div class="latest-price" *ngIf="latestPrice$ | async">
+	<div class="latest-price" *ngIf="showPrice && (latestPrice$ | async)">
 		${{(latestPrice$ | async).toFixed(4)}} per share
 	</div>
-	<div class="getting-latest-price" *ngIf="chosenStock.name && !(latestPrice$ | async)">
+	<div class="getting-latest-price" *ngIf="showPrice && chosenStock.name && !(latestPrice$ | async)">
 		Getting latest price . . .
 	</div>
 </div>

@@ -30,7 +30,7 @@ purchasesRouter.post('/', (req, res) => {
 });
 
 purchasesRouter.get('/', (req, res) => {
-	selectAll().then((retrieved) => {
+	selectAll(req.query.symbol).then((retrieved) => {
 		res.json(retrieved);
 	}).catch((err: any) => {
 		console.warn('selectAll error:', err);
@@ -46,4 +46,3 @@ purchasesRouter.get('/:id', (req, res) => {
 		res.status(500).json(err);
 	});
 });
-

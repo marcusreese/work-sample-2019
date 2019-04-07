@@ -4,37 +4,42 @@ import { ViewPurchasesComponent } from './view-purchases.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatTabsModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatTabsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { StockSelectComponent } from '../stock-select/stock-select.component';
 
 describe('ViewPurchasesComponent', () => {
-  let component: ViewPurchasesComponent;
-  let fixture: ComponentFixture<ViewPurchasesComponent>;
+	let component: ViewPurchasesComponent;
+	let fixture: ComponentFixture<ViewPurchasesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ViewPurchasesComponent ],
-	  imports: [
-		  BrowserModule,
-		  HttpClientModule,
-		  FormsModule,
-		  ReactiveFormsModule,
-		  MatTabsModule,
-		  MatFormFieldModule,
-		  MatInputModule,
-		  NoopAnimationsModule
-	  ]
-    })
-    .compileComponents();
-  }));
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+			declarations: [
+				ViewPurchasesComponent,
+				StockSelectComponent
+			],
+			imports: [
+				BrowserModule,
+				HttpClientModule,
+				FormsModule,
+				ReactiveFormsModule,
+				MatAutocompleteModule,
+				MatTabsModule,
+				MatFormFieldModule,
+				MatInputModule,
+				NoopAnimationsModule
+			]
+		})
+			.compileComponents();
+	}));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ViewPurchasesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		fixture = TestBed.createComponent(ViewPurchasesComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

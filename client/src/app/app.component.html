@@ -7,14 +7,14 @@
 		(You have unlimited fake credit!)
 	</h3>
 	<form>
-		<app-stock-select></app-stock-select>
+		<app-stock-select showPrice="true"></app-stock-select>
 		<app-set-investment></app-set-investment>
 		<button class="buy" mat-flat-button color="primary" [disabled]="!(stockService.maxShares$ | async)"
 			(click)="attemptPurchase()">
 			Pretend to buy now!
 		</button>
 	</form>
-	<h3>Latest Purchase Events:</h3>
+	<h3>Latest Purchase Events</h3>
 	<div class='results' [ngClass]="{ changing: !resultsArrived }">
 		{{results$ | async}}
 	</div>
@@ -29,7 +29,7 @@
 			Try Endpoint
 		</button>
 	</form>
-	<h3>Latest Extra Events:</h3>
+	<h3>Latest Retrieved Purchases</h3>
 	<div class='results' [ngClass]="{ changing: !extraResultsArrived }">
 		{{extraResults$ | async}}
 	</div>

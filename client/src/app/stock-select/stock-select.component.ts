@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith, take, delay, tap } from 'rxjs/operators';
@@ -16,6 +16,7 @@ export class StockSelectComponent implements OnInit {
 	indexedStocks: any = {};
 	chosenStock: any = {};
 	latestPrice$: Observable<number>;
+	@Input() showPrice: boolean;
 
 	constructor(private stockService: StockService) {}
 
@@ -44,6 +45,11 @@ export class StockSelectComponent implements OnInit {
 		} else {
 			this.chosenStock = this.indexedStocks[val].full[0];
 		}
-		this.stockService.setSymbolToBuy(this.chosenStock.symbol);
+
+		if (this.showPrice) {
+			this.stockService.setSymbolToBuy(this.chosenStock.symbol);
+		} else {
+			this.stockService.setSymbolToView(this.chosenStock.symbol);
+		}
 	}
 }
