@@ -75,11 +75,6 @@ describe('StockService', () => {
 		stockService.buy();
 		expect(results).not.toContain(`Purchase completed sucessfully . . .`);
 		expect(results).toContain(`Purchase attempt failed harmlessly . . .`);
-		expect(results).toContain(`Stock Symbol: Unknown`);
-		expect(results).toContain(`Maximum Investment: Unknown`);
-		expect(results).toContain(`Price per share: Unknown`);
-		expect(results).toContain(`Number of shares purchased: 0`);
-		expect(results).toContain(`Total investment: $0.00`);
 		stockService.setSymbolToBuy('A');
 		httpTestingController.expectOne(
 			req => {
@@ -94,19 +89,16 @@ describe('StockService', () => {
 			}
 		).flush({
 			"data": {
-				"symbol": "A",
-				"max_4_dec": "5000000",
-				"price_4_dec": 35000,
-				"num_shares": 2,
-				"id": "4e4af463-c7a8-47be-bc0d-eecc027d0b5a",
-				"time": 1554594166853
+				"Date and time": "Sun Apr 07 2019 01:21:53 GMT-0600",
+				"Stock ticker symbol": "AA",
+				"Maximum investment": "$85.00",
+				"Price per share": "$29.5500",
+				"Number of shares purchased": 2,
+				"Total investment": "$59.10",
+				"Purchase ID": "c9f3186c-eeb1-4046-8cfc-9460f73fb2fb"
 			},
 			"status": 200
 		});
 		expect(results).toContain(`Purchase completed sucessfully . . .`);
-		expect(results).toContain(`Maximum Investment: $500.00`);
-		expect(results).toContain(`Price per share: $3.5000`);
-		expect(results).toContain(`Number of shares purchased: 2`);
-		expect(results).toContain(`Total investment: $7.00`);
 	});
 });

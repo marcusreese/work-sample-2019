@@ -5,6 +5,8 @@ import * as dfp from '../do-fake-purchase';
 jest.mock('../do-fake-purchase');
 import * as lowdb from './purchases.storage';
 jest.mock('./purchases.storage');
+import * as format from './purchases.format';
+jest.mock('./purchases.format');
 
 describe('purchases resource', () => {
 	afterAll(async () => {
@@ -21,8 +23,12 @@ describe('purchases resource', () => {
 				time: Date.now()
 			}
 		};
+		const formatSpy = jest.spyOn(format, 'validatePost');
+		formatSpy.mockResolvedValue(testData);
 		const dfpSpy = jest.spyOn(dfp, 'doFakePurchase');
 		dfpSpy.mockImplementation((s, m) => Promise.resolve(testData));
+		const formatSpy2 = jest.spyOn(format, 'translateFromDbFormat');
+		formatSpy2.mockResolvedValue(testData.data as any);
 		const result = await request(app).post(prefix + purchasesSegment).send({});
 		expect(dfp.doFakePurchase).toHaveBeenCalledTimes(1);
 		expect(result.body).toEqual(testData);
@@ -41,6 +47,8 @@ describe('purchases resource', () => {
 			},
 			message: 'Some message'
 		};
+		const formatSpy = jest.spyOn(format, 'validatePost');
+		formatSpy.mockResolvedValue(testData);
 		const dfpSpy = jest.spyOn(dfp, 'doFakePurchase');
 		dfpSpy.mockImplementation((s, m) => Promise.reject(testData));
 		const result = await request(app).post(prefix + purchasesSegment).send({});
@@ -49,11 +57,24 @@ describe('purchases resource', () => {
 		expect(result.status).toEqual(500);
 	});
 
-	it('returns an array for getAll', async () => {
-		const lowdbSpy = jest.spyOn(lowdb, 'selectAll');
-		lowdbSpy.mockResolvedValue(([]));
+	it('returns an array for selectMultiple', async () => {
+		const lowdbSpy = jest.spyOn(lowdb, 'selectMultiple');
+		lowdbSpy.mockResolvedValue([]);
+		const formatSpy = jest.spyOn(format, 'validatePost');
+		formatSpy.mockResolvedValue([]);
 		const result = await request(app).get(prefix + purchasesSegment);
 		expect(result.text).toEqual('[]');
+		expect(Array.isArray(JSON.parse(result.text))).toBe(true);
+		expect(result.status).toEqual(200);
+	});
+
+	it('returns an object for selectById', async () => {
+		const lowdbSpy = jest.spyOn(lowdb, 'selectById');
+		lowdbSpy.mockResolvedValue({} as any);
+		const formatSpy = jest.spyOn(format, 'validatePost');
+		formatSpy.mockResolvedValue({});
+		const result = await request(app).get(prefix + purchasesSegment + '/myId');
+		expect(Array.isArray(JSON.parse(result.text))).toBe(false);
 		expect(result.status).toEqual(200);
 	});
 });

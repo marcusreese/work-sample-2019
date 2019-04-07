@@ -133,6 +133,7 @@ describe('StockSelectComponent', () => {
 
 	it('should show latest price', () => {
 		const fixture = TestBed.createComponent(StockSelectComponent);
+		fixture.componentInstance.showPrice = true;
 		fixture.detectChanges();
 		const compiled = fixture.debugElement.nativeElement;
 		expect(compiled.querySelector('.latest-price')).toBeFalsy();
