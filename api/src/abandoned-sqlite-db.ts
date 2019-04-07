@@ -41,7 +41,7 @@ export const prepDb: () => Promise<void> = () => {
 		const db = values[0];
 		return Promise.all([
 			Promise.resolve(db),
-			db.run(`CREATE INDEX IF NOT EXISTS symbol_idx ON purchase(symbol);`)
+			db.run(`CREATE INDEX IF NOT EXISTS symbol_idx ON purchase(symbol)`)
 		]);
 	}).then((values) => {
 		console.log('init db 3');
@@ -55,9 +55,10 @@ export const prepDb: () => Promise<void> = () => {
 		console.log('init db 4');
 		const insert = (fields: Insert) => {
 			const { symbol, price_4_dec, num_shares, max_4_dec, time } = fields;
-			const id = uuidv4();
-			let str: string;
-			return insertRaw.run(id, symbol, price_4_dec, num_shares, max_4_dec, time);
+			// const id = uuidv4();
+			console.log('inserting:', null, symbol, price_4_dec, num_shares, max_4_dec, time)
+			return insertRaw.run(null, symbol, price_4_dec, num_shares, max_4_dec, time);
+			// return db.run(null, symbol, price_4_dec, num_shares, max_4_dec, time);
 		};
 		return Promise.all([
 			Promise.resolve(db),
@@ -74,7 +75,6 @@ export const prepDb: () => Promise<void> = () => {
 		]);
 	}).then((values) => {
 		const [db, dbStatements, selectBySymbol] = values;
-		console.log('init db 6');
 		return Promise.all([
 			Promise.resolve(db),
 			Promise.resolve({ selectBySymbol, ...dbStatements }),
@@ -83,9 +83,9 @@ export const prepDb: () => Promise<void> = () => {
 	}).then((values) => {
 		const [db, dbStatements, selectAll] = values;
 		console.log('init db 7');
-		// purchaseTable = { selectAll, ...dbStatements };
 		purchaseTable = { selectAll, ...dbStatements };
 		nodeCleanup(function (exitCode, signal) {
+			console.log('Cleaning Up!');
 			Object.values(purchaseTable).forEach((obj: any) => {
 				if (obj.run) {
 					obj.finalize();

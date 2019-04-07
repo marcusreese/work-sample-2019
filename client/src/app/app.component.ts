@@ -16,6 +16,7 @@ export class AppComponent {
 
 	constructor(public stockService: StockService) {
 		this.results$ = this.stockService.getResults$();
+		this.extraResults$ = this.stockService.getExtraResults$();
 	}
 
 	attemptPurchase() {
@@ -25,10 +26,10 @@ export class AppComponent {
 		});
 	}
 	
-	getAll() {
+	get() {
 		console.log('ready')
 		this.extraResultsArrived = false;
-		this.stockService.buy().then(() => {
+		this.stockService.get().then(() => {
 			this.extraResultsArrived = true;
 		});
 	}

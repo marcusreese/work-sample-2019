@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { app, prefix } from '../app';
 import { purchasesSegment } from './purchases';
-import * as db from '../db';
-jest.mock('../db');
+// import * as db from '../abandoned-sqlite-db';
+// jest.mock('../db');
 import * as dfp from '../do-fake-purchase';
 jest.mock('../do-fake-purchase');
 
@@ -12,13 +12,13 @@ describe('purchases resource', () => {
 		await new Promise(resolve => setTimeout(() => resolve(), 500)); // avoid jest open handle error
 	});
 	it('handles 200 case', async (done) => {
-		const dbSpy = jest.spyOn(db, 'getPurchaseTable');
-		dbSpy.mockImplementation(() => ({
-			insert: () => {},
-			selectById: {},
-			selectBySymbol: {},
-			selectAll: {}
-		}));
+		// const dbSpy = jest.spyOn(db, 'getPurchaseTable');
+		// dbSpy.mockImplementation(() => ({
+		// 	insert: () => {},
+		// 	selectById: {},
+		// 	selectBySymbol: {},
+		// 	selectAll: {}
+		// }));
 		const testData = {
 			status: 200,
 			data: {

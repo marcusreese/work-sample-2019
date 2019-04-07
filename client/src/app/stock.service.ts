@@ -96,14 +96,15 @@ export class StockService {
 	buy() {
 		return new Promise((resolve) => {
 			if (!this.selectedSymbol || !this.maxInvestment) {
-				this.logPurchaseInfo(false, undefined, 0);
+				this.logPurchaseInfo(null, undefined, 0);
 				resolve();
 			} else {
 				const { selectedSymbol: stockSymbol, maxInvestment } = this;
 				const url = 'http://localhost:3000/api/v1/purchases'; // process.env.PURCHASES_URL;
 				this.http.post(url, { stockSymbol, maxInvestment }).subscribe((res: any) => {
-					const { price, numSharesBought } = res.data;
-					this.logPurchaseInfo(true, price, numSharesBought);
+					const { time, price, numSharesBought, id} = res.data;
+					console.log('no price?', res.data);
+					this.logPurchaseInfo(time, price, numSharesBought, id);
 					resolve();
 				}, (err) => {
 					// If the API server is up but has lost connection to the IEX API,
@@ -113,27 +114,28 @@ export class StockService {
 					const msg = message ? message.split('\n') : navigator.onLine ?
 						[`Our API server may be down.`] :
 						[`Check your internet connection?`];
-					this.logPurchaseInfo(false, price, numSharesBought, msg);
+					this.logPurchaseInfo(null, price, numSharesBought, null, msg);
 					resolve();
 				})
 			}
 		});
 	}
 
-	logPurchaseInfo(isOkay: boolean, price = 0, numShares = 0, other = []) {
-		const topMessage = isOkay ? `Purchase completed sucessfully . . .`
+	logPurchaseInfo(time: number, price = 0, numShares = 0, id?: string, other = []) {
+		const topMessage = id ? `Purchase completed sucessfully . . .`
 			: `Purchase attempt failed harmlessly . . .`;
 		const maxInv = this.maxInvestment ? '$' + (this.maxInvestment.toFixed(2)) : null;
 		const total = price * numShares;
 		this.results$.next([
 			// TODO use date from server
-			new Date().toString().split(' (')[0],
+			new Date(time).toString().split(' (')[0],
 			topMessage,
 			`Stock Symbol: ${this.selectedSymbol || 'Unknown'}`,
 			`Maximum Investment: ${ maxInv || 'Unknown'}`,
 			`Price per share: ${price ? '$' + price.toFixed(4) : 'Unknown'}`,
 			`Number of shares purchased: ${numShares}`,
 			`Total investment: $${total.toFixed(2)}`,
+			`ID: ${id || 'None'}`,
 			...other
 		].join('\n') + '\n\n' + this.results$.value);
 	}
@@ -143,7 +145,7 @@ export class StockService {
 			const url = 'http://localhost:3000/api/v1/purchases'; // process.env.PURCHASES_URL;
 			return this.http.get(url).subscribe((res: any) => {
 				console.log('got:', res)
-				this.logExtraInfo(true);
+				this.logExtraInfo(true, JSON.stringify(res, null, 2).split('\n'));
 				resolve();
 			}, (err) => {
 				// If the API server is up but has lost connection to the IEX API,
@@ -162,10 +164,10 @@ export class StockService {
 	logExtraInfo(isOkay: boolean, messages = []) {
 		const topMessage = isOkay ? `API interaction completed sucessfully . . .`
 			: `API interaction failed harmlessly . . .`;
-		this.results$.next([
+		this.extraResults$.next([
 			new Date().toString().split(' (')[0],
 			topMessage,
 			...messages
-		].join('\n') + '\n\n' + this.results$.value);
+		].join('\n') + '\n\n' + this.extraResults$.value);
 	}
 }
