@@ -2,7 +2,13 @@
 	mat-tab-group {
 		height: 8rem;
 	}
+	.explanation {
+		margin: 1rem 1ch;
+	}
 	::ng-deep {
+		.mat-tab-body-wrapper {
+			padding-top: .5rem;
+		}
 		.mat-tab-label {
 			min-width: 65px; // was 160px; less than 65 doesn't do much?
 		}

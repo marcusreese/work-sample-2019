@@ -94,10 +94,12 @@ describe('StockService', () => {
 			}
 		).flush({
 			"data": {
-				"stockSymbol": "A",
-				"maxInvestment": "500",
-				"price": 3.5,
-				"numSharesBought": 2
+				"symbol": "A",
+				"max_4_dec": "5000000",
+				"price_4_dec": 35000,
+				"num_shares": 2,
+				"id": "4e4af463-c7a8-47be-bc0d-eecc027d0b5a",
+				"time": 1554594166853
 			},
 			"status": 200
 		});

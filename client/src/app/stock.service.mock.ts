@@ -10,6 +10,7 @@ export class StockServiceMock {
 	private selectedSymbol = '';
 	private selectedPrice$ = new BehaviorSubject<number>(null);
 	results$ = new BehaviorSubject<string>('');
+	extraResults$ = new BehaviorSubject<string>('');
 	maxShares$ = new BehaviorSubject<number>(5);
 
 	constructor() {}
@@ -52,6 +53,10 @@ export class StockServiceMock {
 
 	getResults$() {
 		return this.results$.asObservable();
+	}
+
+	getExtraResults$() {
+		return this.extraResults$.asObservable();
 	}
 
 	buy() {
