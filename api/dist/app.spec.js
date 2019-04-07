@@ -6,6 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("./app");
 const supertest_1 = __importDefault(require("supertest"));
 describe('The app', () => {
+    afterAll(async () => {
+        await new Promise(resolve => setTimeout(() => resolve(), 500)); // avoid jest open handle error
+    });
     it('returns 404 for non-existent routes part 1', async () => {
         const result = await supertest_1.default(app_1.app).get('/');
         expect(result.body).toEqual(app_1.helpful404);

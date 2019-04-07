@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { purchasesSegment, purchasesRouter } from './purchases/purchases';
+import { purchasesSegment, purchasesRouter } from './purchases/purchases.endpoints';
 
 export const app = express();
 

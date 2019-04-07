@@ -1,24 +1,16 @@
 import request from 'supertest';
 import { app, prefix } from '../app';
-import { purchasesSegment } from './purchases';
+import { purchasesSegment } from './purchases.endpoints';
 import * as dfp from '../do-fake-purchase';
 jest.mock('../do-fake-purchase');
-import * as lowdb from './lowdb-purchase-storage';
-jest.mock('./lowdb-purchase-storage');
-
+import * as lowdb from './purchases.storage';
+jest.mock('./purchases.storage');
 
 describe('purchases resource', () => {
 	afterAll(async () => {
 		await new Promise(resolve => setTimeout(() => resolve(), 500)); // avoid jest open handle error
 	});
 	it('handles 200 post', async (done) => {
-		// const dbSpy = jest.spyOn(db, 'getPurchaseTable');
-		// dbSpy.mockImplementation(() => ({
-		// 	insert: () => {},
-		// 	selectById: {},
-		// 	selectBySymbol: {},
-		// 	selectAll: {}
-		// }));
 		const testData = {
 			status: 200,
 			data: {

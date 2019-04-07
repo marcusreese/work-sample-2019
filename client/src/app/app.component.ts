@@ -27,7 +27,6 @@ export class AppComponent {
 	}
 	
 	get() {
-		console.log('ready')
 		this.extraResultsArrived = false;
 		this.stockService.get().then(() => {
 			this.extraResultsArrived = true;

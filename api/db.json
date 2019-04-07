@@ -1,164 +1,28 @@
 {
   "purchases": [
     {
-      "id": "4e4af463-c7a8-47be-bc0d-eecc027d0b5a",
-      "symbol": "AA",
-      "price_4_dec": 295500,
-      "num_shares": 1,
-      "max_4_dec": 590000,
-      "time": 1554594166853
-    },
-    {
-      "id": "cb98a642-8708-429c-9a7e-5b224e0a644c",
-      "symbol": "AAC",
-      "price_4_dec": 20500,
-      "num_shares": 288,
-      "max_4_dec": 5910000,
-      "time": 1554594207599
-    },
-    {
-      "id": "a00af2c4-6579-4edf-a138-412b6a451e63",
-      "symbol": "OPB",
-      "price_4_dec": 211300,
-      "num_shares": 15,
-      "max_4_dec": 3330000,
-      "time": 1554594567035
-    },
-    {
-      "id": "462e75f8-d2ca-4a56-95b5-5c6d8ed80392",
-      "symbol": "OPB",
-      "price_4_dec": 211300,
-      "num_shares": 15,
-      "max_4_dec": 3330000,
-      "time": 1554594615928
-    },
-    {
-      "id": "b676c0f4-4b94-4a6a-81b0-6b7151cce372",
-      "symbol": "GOOGL",
-      "price_4_dec": 12114500,
-      "num_shares": 366,
-      "max_4_dec": 4444440000,
-      "time": 1554594658619
-    },
-    {
-      "id": "dba29a2c-cfaf-43fd-b80d-c45c03cadf85",
-      "symbol": "GOOGL",
-      "price_4_dec": 12114500,
-      "num_shares": 366,
-      "max_4_dec": 4444440000,
-      "time": 1554594815474
-    },
-    {
-      "id": "314f36dc-2cb5-42b4-bec0-149a406ef607",
-      "symbol": "AAAU",
-      "price_4_dec": 129050,
-      "num_shares": 4,
-      "max_4_dec": 590000,
-      "time": 1554594975066
-    },
-    {
-      "id": "f62c3aa9-a05a-4752-bd9e-d27efa6335c8",
+      "id": "c9f3186c-eeb1-4046-8cfc-9460f73fb2fb",
       "symbol": "AA",
       "price_4_dec": 295500,
       "num_shares": 2,
       "max_4_dec": 850000,
-      "time": 1554595082763
+      "time": 1554621713418
     },
     {
-      "id": "c277e526-f401-4910-bc0f-368ad76b2b5a",
-      "symbol": "AA",
-      "price_4_dec": 295500,
-      "num_shares": 1,
-      "max_4_dec": 590000,
-      "time": 1554595262194
+      "id": "85f62f82-fc8b-448c-9bf9-b95bf345e2e5",
+      "symbol": "CC",
+      "price_4_dec": 380300,
+      "num_shares": 14,
+      "max_4_dec": 5430000,
+      "time": 1554622562989
     },
     {
-      "id": "2fbd678e-bc3e-43f2-aaa9-e1d927f02917",
-      "symbol": "GOOD",
-      "price_4_dec": 212100,
-      "num_shares": 15,
-      "max_4_dec": 3330000,
-      "time": 1554595466433
-    },
-    {
-      "id": "68ba401f-b34b-4f2f-907c-800e5f4ce4e2",
-      "symbol": "AA",
-      "price_4_dec": 295500,
-      "num_shares": 112,
-      "max_4_dec": 33330000,
-      "time": 1554595756231
-    },
-    {
-      "id": "7bb0b238-59aa-432c-b89a-94f33d9da062",
-      "symbol": "AA",
-      "price_4_dec": 295500,
-      "num_shares": 112,
-      "max_4_dec": 33330000,
-      "time": 1554595839121
-    },
-    {
-      "id": "8278e7bd-88d3-4922-b106-602e3275448d",
-      "symbol": "AAAU",
-      "price_4_dec": 129050,
-      "num_shares": 4,
-      "max_4_dec": 590000,
-      "time": 1554595908878
-    },
-    {
-      "id": "ce672f71-3746-4d77-8fbf-4d3a4826b678",
-      "symbol": "AA",
-      "price_4_dec": 295500,
-      "num_shares": 2,
-      "max_4_dec": 850000,
-      "time": 1554601496906
-    },
-    {
-      "id": "09455e2d-9199-4194-8a35-154b3df5ed1f",
-      "symbol": "Z",
-      "price_4_dec": 372700.00000000006,
-      "num_shares": 3,
-      "max_4_dec": 1230000,
-      "time": 1554606696558
-    },
-    {
-      "id": "0dd82684-9e77-496a-b28e-49e6085fd5ef",
-      "symbol": "AA",
-      "price_4_dec": 295500,
-      "num_shares": 1,
-      "max_4_dec": 590000,
-      "time": 1554607404147
-    },
-    {
-      "id": "0bd22515-da5a-44ce-8938-34a738a67c70",
-      "symbol": "AAPL",
-      "price_4_dec": 1970000,
-      "num_shares": 4,
-      "max_4_dec": 8880000,
-      "time": 1554607492624
-    },
-    {
-      "id": "d4adcff0-08a6-4f07-810d-a24c9d9bd232",
-      "symbol": "ABC",
-      "price_4_dec": 70000,
-      "num_shares": 4,
-      "max_4_dec": null,
-      "time": 1554607877543
-    },
-    {
-      "id": "4b55da46-f329-479c-8aaf-eb1ac59ae8c9",
-      "symbol": "AA",
-      "price_4_dec": 295500,
-      "num_shares": 1,
-      "max_4_dec": 590000,
-      "time": 1554610223406
-    },
-    {
-      "id": "bde1b84f-3e5b-4740-bd45-c9424d9e4947",
-      "symbol": "AAAU",
-      "price_4_dec": 129050,
-      "num_shares": 6,
-      "max_4_dec": 850000,
-      "time": 1554611747000
+      "id": "1f0b9840-1878-41c5-9a07-47b2b7dc2925",
+      "symbol": "CC",
+      "price_4_dec": 380300,
+      "num_shares": 14,
+      "max_4_dec": 5430000,
+      "time": 1554622596521
     }
   ]
 }

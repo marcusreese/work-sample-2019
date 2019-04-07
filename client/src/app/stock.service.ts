@@ -3,15 +3,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, take, retryWhen, delay } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
-interface DbPurchase {
-	symbol?: string;
-	price_4_dec?: number;
-	num_shares?: number;
-	max_4_dec?: number;
-	time?: number;
-	id?: string;
-}
-
 export enum SelectType {
 	All,
 	ById,
@@ -137,7 +128,7 @@ export class StockService {
 	}
 
 	logPurchaseInfo(data, other = []) {
-		const topMessage = data.id ? `Purchase completed sucessfully . . .`
+		const topMessage = data['Purchase ID'] ? `Purchase completed sucessfully . . .`
 			: `Purchase attempt failed harmlessly . . .`;
 		this.results$.next([
 			topMessage,
@@ -146,30 +137,9 @@ export class StockService {
 		].join('\n') + '\n\n' + this.results$.value);
 	}
 
-	formatEntry(purchaseEntry: DbPurchase) {
-		const { time, symbol, max_4_dec, price_4_dec, num_shares, id } = purchaseEntry;
-		const when = new Date(time || Date.now()).toString().split(' (')[0];
-		const stockSymbol = symbol || 'Unknown';
-		const maxInv = max_4_dec ?
-			'$' + (max_4_dec / (10 ** 4)).toFixed(2)
-			: 'Unknown';
-		const priceWithDecimalPoint = (price_4_dec || 0) / (10 ** 4);
-		const price = price_4_dec ?
-			'$' + priceWithDecimalPoint.toFixed(4)
-			: 'Unknown';
-		const numShares = num_shares || 0;
-		const total = '$' + (priceWithDecimalPoint * numShares).toFixed(2);
-		const purchaseId = id || 'None';
-		return [
-			when,
-			`Stock Symbol: ${stockSymbol}`,
-			`Maximum Investment: ${maxInv}`,
-			`Price per share: ${price}`,
-			`Number of shares purchased: ${numShares}`,
-			`Total investment: ${total}`,
-			`Purchase ID: ${purchaseId}`
-		];
-	} 
+	formatEntry(data) {
+		return Object.entries(data).map(pair => pair.join(': '));
+	}
 
 	get() {
 		this.extraResults$.next(''); // clear it

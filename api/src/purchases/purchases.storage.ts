@@ -27,7 +27,7 @@ export const insert = async function (fields: Insert) {
 	return entry;
 };
 
-export const selectAll = async function (symbol?: string) {
+export const selectMultiple = async function (symbol?: string) {
 	if (symbol) {
 		return db.get(purchasesStr)
 			.filter({ symbol })
@@ -39,7 +39,12 @@ export const selectAll = async function (symbol?: string) {
 };
 
 export const selectById = async function (id: string) {
-	return db.get(purchasesStr)
+	const found = db.get(purchasesStr)
 		.find({ id })
 		.value();
+	return found || Promise.reject({
+		status: 404,
+		message: `There was no purchase record found for` + '\n'
+			+ `Purchase ID: ${id}`
+	});
 };
