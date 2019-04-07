@@ -13,7 +13,9 @@ git clone https://github.com/marcusreese/work-sample-2019.git
 
 #### Angular Client
 * cd into work-sample-2019/client
+* npm install
 * ng test
 * ng serve
+* http://localhost:4200
 
 
