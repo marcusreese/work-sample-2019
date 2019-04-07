@@ -1,6 +1,6 @@
 import express, { response } from 'express';
 import * as dfp from '../do-fake-purchase';
-import { selectAll, insert } from './lowdb-purchase-storage';
+import { selectAll, insert, selectById } from './lowdb-purchase-storage';
 
 export const purchasesSegment = '/purchases';
 export const purchasesRouter = express.Router();
@@ -30,10 +30,19 @@ purchasesRouter.post('/', (req, res) => {
 });
 
 purchasesRouter.get('/', (req, res) => {
-	selectAll().then((returned) => {
-		res.json(returned);
+	selectAll().then((retrieved) => {
+		res.json(retrieved);
 	}).catch((err: any) => {
-		console.warn('select err:', err);
+		console.warn('selectAll error:', err);
+		res.status(500).json(err);
+	});
+});
+
+purchasesRouter.get('/:id', (req, res) => {
+	selectById(req.params.id).then((retrieved) => {
+		res.json(retrieved);
+	}).catch((err: any) => {
+		console.warn('selectById error:', err);
 		res.status(500).json(err);
 	});
 });

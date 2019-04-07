@@ -1,10 +1,14 @@
-<mat-tab-group mat-stretch-tabs>
+<mat-tab-group mat-stretch-tabs (selectedTabChange)="tabClick($event.index)">
 	<mat-tab label="All">
 		<div class="explanation">Click to retrieve all stored purchases . . .</div>
 	</mat-tab>
 	<mat-tab label="By ID">
 		<mat-form-field>
-			<input matInput placeholder="Purchase ID" type="text">
+			<input
+				matInput
+				placeholder="Purchase ID"
+				type="text"
+				(change)="setId($event.target.value)">
 		</mat-form-field>
 	</mat-tab>
 	<mat-tab label="By Symbol"> </mat-tab>

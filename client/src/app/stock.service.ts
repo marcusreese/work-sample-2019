@@ -12,17 +12,26 @@ interface DbPurchase {
 	id?: string;
 }
 
+export enum SelectType {
+	All,
+	ById,
+	BySymbol
+}
+
 @Injectable({
 	providedIn: 'root'
 })
 export class StockService {
-	private selectedSymbol = '';
+	private symbolToBuy = '';
 	private pricePollInterval: any; // TS complains about both Timer and number
 	selectedPrice$ = new BehaviorSubject<number>(null);
 	maxShares$ = new BehaviorSubject<number>(null);
 	maxInvestment: number;
 	private results$ = new BehaviorSubject<string>('');
 	private extraResults$ = new BehaviorSubject<string>('');
+	private selectType = SelectType.All;
+	private selectedId: string;
+	private symbolToView: string;
 
 	constructor(private http: HttpClient) {}
 
@@ -47,12 +56,12 @@ export class StockService {
 		);
 	}
 
-	getSelectedSymbol() {
-		return this.selectedSymbol;
+	getSymbolToBuy() {
+		return this.symbolToBuy;
 	}
 
-	setSelectedSymbol(symbol) {
-		this.selectedSymbol = symbol;
+	setSymbolToBuy(symbol) {
+		this.symbolToBuy = symbol;
 		this.providePriceOfSelected();
 		return true;
 	}
@@ -64,10 +73,10 @@ export class StockService {
 	}
 
 	pollForLatestPrice() {
-		if (!this.selectedSymbol) {
+		if (!this.symbolToBuy) {
 			return;
 		}
-		this.http.get(`https://api.iextrading.com/1.0/stock/${this.selectedSymbol}/price`)
+		this.http.get(`https://api.iextrading.com/1.0/stock/${this.symbolToBuy}/price`)
 			.pipe(
 				retryWhen(errors => errors.pipe(delay(3000)))
 				// take(1)
@@ -104,11 +113,11 @@ export class StockService {
 
 	buy() {
 		return new Promise((resolve) => {
-			if (!this.selectedSymbol || !this.maxInvestment) {
+			if (!this.symbolToBuy || !this.maxInvestment) {
 				this.logPurchaseInfo({});
 				resolve();
 			} else {
-				const { selectedSymbol: stockSymbol, maxInvestment } = this;
+				const { symbolToBuy: stockSymbol, maxInvestment } = this;
 				const url = 'http://localhost:3000/api/v1/purchases'; // process.env.PURCHASES_URL;
 				this.http.post(url, { stockSymbol, maxInvestment }).subscribe((res: any) => {
 					this.logPurchaseInfo(res.data);
@@ -163,12 +172,16 @@ export class StockService {
 	} 
 
 	get() {
+		this.extraResults$.next(''); // clear it
 		return new Promise((resolve) => {
 			const url = 'http://localhost:3000/api/v1/purchases'; // process.env.PURCHASES_URL;
-			return this.http.get(url).subscribe((res: any) => {
-				console.log('got:', res)
-				this.logExtraInfo(true, res.reduce((res, cur) =>
-					res.concat(this.formatEntry(cur), ['']), []));
+			const id = this.selectType === SelectType.ById ? `/${this.selectedId}` : '';
+			const query = this.selectType === SelectType.BySymbol ? 
+				`?symbol=${this.symbolToView}` : '';
+			return this.http.get(url + id + query).subscribe((res: any) => {
+				const objects = id ? [res] : res;
+				this.logExtraInfo(true, objects.reduce((lines, object) =>
+					lines.concat(this.formatEntry(object), ['']), []));
 				resolve();
 			}, (err) => {
 				// If the API server is up but has lost connection to the IEX API,
@@ -192,5 +205,13 @@ export class StockService {
 			'',
 			...messages
 		].join('\n') + '\n\n' + this.extraResults$.value);
+	}
+
+	setSelectType(type: SelectType) {
+		this.selectType = type;
+	}
+
+	setSelectedId(id: string) {
+		this.selectedId = id;
 	}
 }

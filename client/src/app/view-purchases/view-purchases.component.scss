@@ -1,3 +1,4 @@
+$input-width: 35ch;
 :host {
 	mat-tab-group {
 		height: 8rem;
@@ -8,6 +9,10 @@
 	::ng-deep {
 		.mat-tab-body-wrapper {
 			padding-top: .5rem;
+			width: $input-width;
+			.mat-form-field-infix {
+				width: $input-width;
+			}
 		}
 		.mat-tab-label {
 			min-width: 65px; // was 160px; less than 65 doesn't do much?

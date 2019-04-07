@@ -44,6 +44,6 @@ export class StockSelectComponent implements OnInit {
 		} else {
 			this.chosenStock = this.indexedStocks[val].full[0];
 		}
-		this.stockService.setSelectedSymbol(this.chosenStock.symbol);
+		this.stockService.setSymbolToBuy(this.chosenStock.symbol);
 	}
 }

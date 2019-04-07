@@ -1,17 +1,17 @@
 import request from 'supertest';
 import { app, prefix } from '../app';
 import { purchasesSegment } from './purchases';
-// import * as db from '../abandoned-sqlite-db';
-// jest.mock('../db');
 import * as dfp from '../do-fake-purchase';
 jest.mock('../do-fake-purchase');
+import * as lowdb from './lowdb-purchase-storage';
+jest.mock('./lowdb-purchase-storage');
 
 
 describe('purchases resource', () => {
 	afterAll(async () => {
 		await new Promise(resolve => setTimeout(() => resolve(), 500)); // avoid jest open handle error
 	});
-	it('handles 200 case', async (done) => {
+	it('handles 200 post', async (done) => {
 		// const dbSpy = jest.spyOn(db, 'getPurchaseTable');
 		// dbSpy.mockImplementation(() => ({
 		// 	insert: () => {},
@@ -38,7 +38,7 @@ describe('purchases resource', () => {
 		done();
 	});
 
-	it('handles 500 case', async () => {
+	it('handles 500 post', async () => {
 		const testData = {
 			status: 500,
 			data: {
@@ -57,7 +57,9 @@ describe('purchases resource', () => {
 		expect(result.status).toEqual(500);
 	});
 
-	it('returns an array for get', async () => {
+	it('returns an array for getAll', async () => {
+		const lowdbSpy = jest.spyOn(lowdb, 'selectAll');
+		lowdbSpy.mockResolvedValue(([]));
 		const result = await request(app).get(prefix + purchasesSegment);
 		expect(result.text).toEqual('[]');
 		expect(result.status).toEqual(200);

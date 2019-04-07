@@ -1,7 +1,6 @@
 import got from 'got';
 
 export const doFakePurchase = (stockSymbol: string, maxInvestment: number) => {
-	console.log('in real doFakePurchase:');
 	const url = `https://api.iextrading.com/1.0/stock/${stockSymbol}/price`;
 	return got(url).then((resp: got.Response<string>) => {
 		const { body, statusCode } = resp;

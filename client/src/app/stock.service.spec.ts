@@ -25,13 +25,13 @@ describe('StockService', () => {
 		expect(stockService).toBeTruthy();
 	});
 
-	it('should get and set selectedSymbol and get latest price', function () {
+	it('should get and set symbolToBuy and get latest price', function () {
 		const stockService: StockService = TestBed.get(StockService);
-		expect(stockService.setSelectedSymbol).toBeDefined();
-		expect(stockService.getSelectedSymbol).toBeDefined();
-		expect(stockService.getSelectedSymbol()).toBe('');
-		expect(stockService.setSelectedSymbol('ABC')).toBeTruthy();
-		expect(stockService.getSelectedSymbol()).toBe('ABC');
+		expect(stockService.setSymbolToBuy).toBeDefined();
+		expect(stockService.getSymbolToBuy).toBeDefined();
+		expect(stockService.getSymbolToBuy()).toBe('');
+		expect(stockService.setSymbolToBuy('ABC')).toBeTruthy();
+		expect(stockService.getSymbolToBuy()).toBe('ABC');
 		httpTestingController.expectOne(
 			req => {
 				return req.url.includes('price');
@@ -58,7 +58,7 @@ describe('StockService', () => {
 		const returned = stockService.updateEstimate(654);
 		expect(returned.constructor.name).toBe('Observable');
 		expect(stockService.maxInvestment).toBe(654);
-		stockService.setSelectedSymbol('ABC');
+		stockService.setSymbolToBuy('ABC');
 		httpTestingController.expectOne(
 			req => {
 				return req.url.includes('price');
@@ -80,7 +80,7 @@ describe('StockService', () => {
 		expect(results).toContain(`Price per share: Unknown`);
 		expect(results).toContain(`Number of shares purchased: 0`);
 		expect(results).toContain(`Total investment: $0.00`);
-		stockService.setSelectedSymbol('A');
+		stockService.setSymbolToBuy('A');
 		httpTestingController.expectOne(
 			req => {
 				return req.url.includes('price');
@@ -108,6 +108,5 @@ describe('StockService', () => {
 		expect(results).toContain(`Price per share: $3.5000`);
 		expect(results).toContain(`Number of shares purchased: 2`);
 		expect(results).toContain(`Total investment: $7.00`);
-		expect(results).toContain(``);
 	});
 });

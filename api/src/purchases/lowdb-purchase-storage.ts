@@ -30,3 +30,15 @@ export const selectAll: () => Promise<Insert[]> = async function () {
 	return db.get('purchases')
 		.value();
 };
+
+export const selectById = async function (id: string) {
+	return db.get('purchases')
+		.find({ id })
+		.value();
+};
+
+export const selectBySymbol = async function (symbol: string) {
+	return db.get('purchases')
+		.filter({ symbol })
+		.value();
+};
