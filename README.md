@@ -1,5 +1,5 @@
 # work-sample-2019
-Simple webapp using instructions from PENSCO for their hiring process
+Simple webapp using [instructions from PENSCO](https://github.com/marcusreese/work-sample-2019/wiki/Original-Requirements-Document/_edit) for their hiring process
 
 ## Installation
 git clone https://github.com/marcusreese/work-sample-2019.git
