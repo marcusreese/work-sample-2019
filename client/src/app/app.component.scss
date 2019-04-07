@@ -1,6 +1,7 @@
 :host {
 	display: flex;
 	flex-flow: row wrap;
+	justify-content: space-around;
 }
 .half {
     flex: 1 1 45%;
@@ -18,11 +19,14 @@ form {
 	white-space: pre-line;
 	max-height: 12rem;
 	overflow: auto;
-	border-top: 1px solid whitesmoke;
-	border-bottom: 1px solid whitesmoke;
+	border-top: 1px solid lightgray;
+	border-bottom: 1px solid lightgray;
 	padding: 1rem 0;
 	max-width: 40ch;
 	&.changing {
 		visibility: hidden;
 	}
+}
+.second.half .results {
+	max-height: 19rem;
 }
