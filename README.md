@@ -11,7 +11,7 @@ git clone https://github.com/marcusreese/work-sample-2019.git
 * yarn test (not perfect coverage yet)
 * yarn dev
 
-#### Angular Client
+#### Angular Client (in a different terminal)
 * cd into work-sample-2019/client
 * npm install
 * ng test
